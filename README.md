@@ -1,4 +1,7 @@
 # API IXCSoft Python
+[![Build Status](https://travis-ci.org/vazcaino/ixc_api_python.svg?branch=master)](https://travis-ci.org/vazcaino/ixc_api_python)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b77cb29c3a4bdfe5a90d/maintainability)](https://codeclimate.com/github/vazcaino/ixc_api_python/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b77cb29c3a4bdfe5a90d/test_coverage)](https://codeclimate.com/github/vazcaino/ixc_api_python/test_coverage)
 
 Exemplo na linguagem Python 3.5, de utilização da API RESTFUL para troca de informações com o sistema IXCProvedor
 
