@@ -1,0 +1,7 @@
+language: python
+python:
+  - "3.5"
+install:
+  - pip install -q -r requirements.txt
+script:
+  - python -m unittest core_api_ixc/tests/test_client.py
