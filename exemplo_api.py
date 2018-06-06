@@ -39,6 +39,8 @@ def ler_config():
     parametros = {}
     texto = arquivo.readlines()
     for linha in texto:
+        if (linha[0:1] == '#'):
+            continue
         chave = linha.split('=')[0]
         valor = linha.split('=')[1]
         parametros.update({chave: valor[:-1]})
