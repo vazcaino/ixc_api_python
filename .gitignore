@@ -1,0 +1,6 @@
+.DS_Store
+.idea/
+.ixc_api/
+*pyc
+__pycache__
+param.txt
