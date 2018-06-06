@@ -4,6 +4,7 @@ python:
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 install:
   - pip install -q -r requirements.txt
 # for codecoverage on codeclimate.com
@@ -13,4 +14,8 @@ env:
     - CODECLIMATE_REPO_TOKEN=[e2772fce1b2e619128dfb71ff8eee44cd0052419]
     - CC_TEST_REPORTER_ID=[7f6b928c52418c6427d26be1079fd25ccf127afd772b7d665eabf2d5defd872a]
 script:
-  - python -m unittest core_api_ixc/tests/test_client.py
+  #- python -m unittest core_api_ixc/tests/test_client.py
+  - coverage run --source=core_api_ixc/ -m core_api_ixc.client
+after_script:
+  - coverage xml
+  - if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$TRAVIS_PYTHON_VERSION" == "3.5" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
