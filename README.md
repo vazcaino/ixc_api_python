@@ -20,3 +20,12 @@ source .ixc_api/bin/activate
 pip install -r requirements.txt
 python -m unittest core_api_ixc/tests/test_client.py
 ```
+
+##Instruções adicionais
+
+O arquivo exemplo_api.py contém a os exemplo para consultar (GET) Clientes e Cidades utilizando a classe IxcApiClient.
+
+Em breve serão liberados os exemplos de inserção (POST), atualização (PUT) e exclusão (DELETE)
+
+A classe para comunicação esta no diretório core_api_ixc, e por enquanto contém apenas os métodos "get" (consulta) e "post" (inclusão). 
+
