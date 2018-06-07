@@ -6,7 +6,7 @@
 Exemplo na linguagem Python 3.5, de utilização da API RESTFUL para troca de informações com o sistema IXCProvedor
 
 
-##Como desenvolver:
+## Como iniciar o desenvolvimento:
 
 1. Clone o repositório
 2. Crie um virtualenv com Python 3.5
@@ -24,11 +24,13 @@ pip install -r requirements.txt
 python -m unittest core_api_ixc/tests/test_client.py
 ```
 
-##Instruções adicionais
+## Instruções adicionais
 
-O arquivo exemplo_api.py contém a os exemplo para consultar (GET) Clientes e Cidades utilizando a classe IxcApiClient.
+O arquivo exemplo_api.py contém a os exemplo para consultar (GET) Clientes e Cidades pelo campo ID, utilizando a classe IxcApiClient.
 
-Em breve serão liberados os exemplos de inserção (POST), atualização (PUT) e exclusão (DELETE)
+Contém também os exemplos de inserção (POST), atualização (PUT) e exclusão (DELETE) da tabela de cidades.
 
-A classe para comunicação esta no diretório core_api_ixc, e por enquanto contém apenas os métodos "get" (consulta) e "post" (inclusão). 
+A classe para comunicação esta no diretório core_api_ixc.
+
+OBS: Método de atualização (PUT) ainda não esta funcional. 
 

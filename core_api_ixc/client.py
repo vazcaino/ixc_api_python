@@ -5,11 +5,22 @@ class IxcApiClient:
 
     def __init__(self, token, url_base, versao):
         self.token = token
-        #TODO adicionar / no final da url caso nao venha
+        if (url_base[-1:] != '/'):
+            url_base = url_base + '/'
         self.api_url_base = url_base + 'webservice/v' + versao + '/'
 
         self.set_cabecalho_padrao({'Content-Type': 'application/x-www-form-urlencoded'})
+        #self.set_cabecalho_padrao({'Content-Type': 'text/json'})
         self.set_cabecalho_get({'Content-Type': 'application/x-www-form-urlencoded', 'ixcsoft': "listar"})
+
+
+    def get_eh_inteiro(self, valor):
+        if (not isinstance(valor, int)):
+            valor_int = int(valor)
+            if (not isinstance(valor_int, int)):
+                return False
+
+        return True
 
 
     def set_parametros(self, parametros):
@@ -19,6 +30,14 @@ class IxcApiClient:
 
     def get_parametros(self):
         return self.parametros
+
+
+    def set_campos(self, campos):
+        self.campos = campos
+
+
+    def get_campos(self):
+        return self.campos
 
 
     def get_usuario(self):
@@ -61,6 +80,26 @@ class IxcApiClient:
         return resposta
 
 
+    def conexao_put(self, recurso, campos, id_registro):
+        if (not self.get_eh_inteiro(id_registro)):
+            return False
+
+        url_put = self.get_url(recurso)
+        resposta = requests.put(url_put + id_registro, campos, auth=(self.get_usuario(), self.get_senha()), headers=self.get_cabecalho_padrao())
+
+        return resposta
+
+
+    def conexao_delete(self, recurso, id_registro):
+        if (not self.get_eh_inteiro(id_registro)):
+            return False
+
+        url_delete = self.get_url(recurso)
+        resposta = requests.delete(url_delete + id_registro, auth=(self.get_usuario(), self.get_senha()), headers=self.get_cabecalho_padrao())
+
+        return resposta
+
+
     def get(self, recurso, parametros):
         self.set_parametros(parametros)
         conexao = self.conexao_get(recurso, self.get_parametros())
@@ -69,9 +108,24 @@ class IxcApiClient:
         return dados
 
 
-    def post(self, recurso, parametros):
-        self.set_parametros(parametros)
-        conexao = self.conexao_get(recurso, self.get_parametros())
+    def post(self, recurso, campos):
+        self.set_campos(campos)
+        conexao = self.conexao_post(recurso, self.get_campos())
+        dados = conexao.text
+
+        return dados
+
+
+    def put(self, recurso, campos, id_registro):
+        self.set_campos(campos)
+        conexao = self.conexao_put(recurso, self.get_campos(), id_registro)
+        dados = conexao.text
+
+        return dados
+
+
+    def delete(self, recurso, id_registro):
+        conexao = self.conexao_delete(recurso, id_registro)
         dados = conexao.text
 
         return dados
