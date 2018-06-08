@@ -24,6 +24,7 @@ class IxcApiTesteAux():
 
 
     def get_tamanho_dados(self, dados_json):
+        print(dados_json)
         dados = dados_json['registros']
         return len(dados)
 
