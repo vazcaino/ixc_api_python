@@ -1,4 +1,7 @@
+from decouple import config
+
 from core_api_ixc.client import IxcApiClient
+
 
 def get_cliente(token, dominio, versao_api):
     api_ixc = IxcApiClient(token, dominio, versao_api)
@@ -63,17 +66,11 @@ def delete_cidades(token, dominio, versao_api):
 
 
 def ler_config():
-    arquivo = open('param.txt', 'r')
     parametros = {}
-    texto = arquivo.readlines()
-    for linha in texto:
-        if (linha[0:1] == '#'):
-            continue
-        chave = linha.split('=')[0]
-        valor = linha.split('=')[1]
-        parametros.update({chave: valor[:-1]})
 
-    arquivo.close()
+    parametros.update({'token': config('token')})
+    parametros.update({'dominio': config('dominio')})
+    parametros.update({'versao_api': config('versao_api', default='1')})
 
     return parametros
 

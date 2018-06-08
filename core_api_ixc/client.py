@@ -2,7 +2,7 @@ import requests
 
 class IxcApiClient:
     """
-    Classe para comunicação com API da IXCSoft.
+    Classe para comunicação com API da IXCSoft a partir de um software Python.
     """
 
 

@@ -3,5 +3,5 @@
 .ixc_api/
 *pyc
 __pycache__
-param.txt
+.env
 .coverage
