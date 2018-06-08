@@ -12,8 +12,9 @@ Exemplo na linguagem Python 3.5, de utilização da API RESTFUL para troca de in
 2. Crie um virtualenv com Python 3.5
 3. Ative o virtualenv
 4. Configure o param.txt
-5. Instale as dependencias
+5. Instale as dependências
 6. Execute os testes
+7. Gere a documentação da classe IxcApiClient() (após executado ficará acessível em http://localhost:9876/core_api_ixc.client.html)
 
 ```console
 git clone git@github.com:vazcaino/ixc_api_python.git ixc_api
@@ -22,6 +23,7 @@ python -m venv .ixc_api
 source .ixc_api/bin/activate
 pip install -r requirements.txt
 python -m unittest core_api_ixc/tests/test_client.py
+pydoc -p 9876
 ```
 
 ## Instruções adicionais
