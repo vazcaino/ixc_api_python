@@ -23,7 +23,7 @@ cd ixc_api
 python -m venv .ixc_api
 source .ixc_api/bin/activate
 pip install -r requirements.txt
-cp contrib/env-exemplo .env
+cp contrib/.env-exemplo .env
 python -m unittest core_api_ixc/tests/test_client.py
 pydoc -p 9876
 ```
