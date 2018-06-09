@@ -5,8 +5,10 @@ from decouple import config
 
 class IxcApiTesteAux():
 
-    def __init__(self, id_cidade = '0', id_cliente = '0'):
+    def __init__(self, recurso_cidade = 'cidade', id_cidade = '0', recurso_cliente = 'cliente', id_cliente = '0'):
+        self.recurso_cidade = recurso_cidade
         self.id_cidade = id_cidade
+        self.recurso_cliente = recurso_cliente
         self.id_cliente = id_cliente
 
 
@@ -37,10 +39,13 @@ class IxcApiTesteAux():
         return len(dados)
 
 
-    def get_id_dados(self, dados_json):
+    def get_id_dados(self, dados_json, recurso):
         if 'type' in dados_json:
             if dados_json['type'] == 'error':
-                return '500'
+                if recurso == self.recurso_cidade:
+                    return self.id_cidade
+
+                return self.id_cliente
 
         dados = dados_json['registros']
         registro = dados[0]
@@ -106,7 +111,7 @@ class IxcApiClientTeste(TestCase):
         self.recurso_cliente = 'cliente'
         self.id_cliente = '500'
 
-        self.metodos_aux = IxcApiTesteAux(self.id_cidade, self.id_cliente)
+        self.metodos_aux = IxcApiTesteAux(self.recurso_cidade, self.id_cidade, self.recurso_cliente, self.id_cliente)
 
         config = self.metodos_aux.ler_config()
         self.ixc_api_client = IxcApiClient(str(config['token']), str(config['dominio']), str(config['versao_api']))
@@ -118,12 +123,12 @@ class IxcApiClientTeste(TestCase):
         resposta_cidade = self.ixc_api_client.get(self.recurso_cidade, self.metodos_aux.get_param_cidade(self.id_cidade))
         dados_json_cidade = json.loads(resposta_cidade)
         self.assertEqual(1, self.metodos_aux.get_tamanho_dados(dados_json_cidade))
-        self.assertEqual(self.id_cidade, self.metodos_aux.get_id_dados(dados_json_cidade))
+        self.assertEqual(self.id_cidade, self.metodos_aux.get_id_dados(dados_json_cidade, self.recurso_cidade))
 
         resposta_cliente = self.ixc_api_client.get(self.recurso_cliente, self.metodos_aux.get_param_cliente(self.id_cliente))
         dados_json_cliente = json.loads(resposta_cliente)
         self.assertEqual(1, self.metodos_aux.get_tamanho_dados(dados_json_cliente))
-        self.assertEqual(self.id_cliente, self.metodos_aux.get_id_dados(dados_json_cliente))
+        self.assertEqual(self.id_cliente, self.metodos_aux.get_id_dados(dados_json_cliente, self.recurso_cliente))
 
 
     def test_comunicacao_get(self):
