@@ -25,8 +25,9 @@ class IxcApiTesteAux():
 
     def get_tamanho_dados(self, dados_json):
         print(dados_json)
-        if 'error' in dados_json:
-            return 1
+        if 'type' in dados_json:
+            if dados_json['type'] == 'error':
+                return 1
 
         dados = dados_json['registros']
         return len(dados)
@@ -34,8 +35,9 @@ class IxcApiTesteAux():
 
     def get_id_dados(self, dados_json):
         print(dados_json)
-        if 'error' in dados_json:
-            return '11122'
+        if 'type' in dados_json:
+            if dados_json['type'] == 'error':
+                return '11122'
 
         dados = dados_json['registros']
         registro = dados[0]
