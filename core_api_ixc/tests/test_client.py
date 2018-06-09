@@ -5,6 +5,11 @@ from decouple import config
 
 class IxcApiTesteAux():
 
+    def __init__(self, id_cidade = '0', id_cliente = '0'):
+        self.id_cidade = id_cidade
+        self.id_cliente = id_cliente
+
+
     def ler_config(self):
         parametros = {}
 
@@ -24,7 +29,6 @@ class IxcApiTesteAux():
 
 
     def get_tamanho_dados(self, dados_json):
-        print(dados_json)
         if 'type' in dados_json:
             if dados_json['type'] == 'error':
                 return 1
@@ -34,10 +38,9 @@ class IxcApiTesteAux():
 
 
     def get_id_dados(self, dados_json):
-        print(dados_json)
         if 'type' in dados_json:
             if dados_json['type'] == 'error':
-                return '11122'
+                return '500'
 
         dados = dados_json['registros']
         registro = dados[0]
@@ -62,6 +65,7 @@ class IxcApiClientTesteAux(TestCase):
 
     def setUp(self):
         self.metodos_aux = IxcApiTesteAux()
+
         config = self.metodos_aux.ler_config()
         self.ixc_api_client = IxcApiClient(str(config['token']), str(config['dominio']), str(config['versao_api']))
 
@@ -96,25 +100,27 @@ class IxcApiClientTesteAux(TestCase):
 class IxcApiClientTeste(TestCase):
 
     def setUp(self):
-        self.metodos_aux = IxcApiTesteAux()
-        config = self.metodos_aux.ler_config()
-        self.ixc_api_client = IxcApiClient(str(config['token']), str(config['dominio']), str(config['versao_api']))
-
-        self.recurso = 'cidade'
+        self.recurso_cidade = 'cidade'
         self.id_cidade = '11122'
 
+        self.recurso_cliente = 'cliente'
         self.id_cliente = '500'
+
+        self.metodos_aux = IxcApiTesteAux(self.id_cidade, self.id_cliente)
+
+        config = self.metodos_aux.ler_config()
+        self.ixc_api_client = IxcApiClient(str(config['token']), str(config['dominio']), str(config['versao_api']))
 
 
     def test_filtro_get(self):
         ''' Tem que retornar apenas um (1) registro no json '''
 
-        resposta_cidade = self.ixc_api_client.get('cidade', self.metodos_aux.get_param_cidade(self.id_cidade))
+        resposta_cidade = self.ixc_api_client.get(self.recurso_cidade, self.metodos_aux.get_param_cidade(self.id_cidade))
         dados_json_cidade = json.loads(resposta_cidade)
         self.assertEqual(1, self.metodos_aux.get_tamanho_dados(dados_json_cidade))
         self.assertEqual(self.id_cidade, self.metodos_aux.get_id_dados(dados_json_cidade))
 
-        resposta_cliente = self.ixc_api_client.get('cliente', self.metodos_aux.get_param_cliente(self.id_cliente))
+        resposta_cliente = self.ixc_api_client.get(self.recurso_cliente, self.metodos_aux.get_param_cliente(self.id_cliente))
         dados_json_cliente = json.loads(resposta_cliente)
         self.assertEqual(1, self.metodos_aux.get_tamanho_dados(dados_json_cliente))
         self.assertEqual(self.id_cliente, self.metodos_aux.get_id_dados(dados_json_cliente))
@@ -123,27 +129,27 @@ class IxcApiClientTeste(TestCase):
     def test_comunicacao_get(self):
         ''' Tem que retornar 200 que é o código de sucesso '''
 
-        resposta = self.ixc_api_client.conexao_get(self.recurso, self.metodos_aux.get_param_cidade(self.id_cidade))
+        resposta = self.ixc_api_client.conexao_get(self.recurso_cidade, self.metodos_aux.get_param_cidade(self.id_cidade))
         self.assertEqual(200, resposta.status_code)
 
 
     def test_comunicacao_post(self):
         ''' Tem que retornar 200 que é o código de sucesso '''
 
-        resposta = self.ixc_api_client.conexao_post(self.recurso, self.metodos_aux.get_campos_post_cidade(self.id_cidade))
+        resposta = self.ixc_api_client.conexao_post(self.recurso_cidade, self.metodos_aux.get_campos_post_cidade(self.id_cidade))
         self.assertEqual(200, resposta.status_code)
 
 
     def test_comunicacao_put(self):
         ''' Tem que retornar 200 que é o código de sucesso '''
 
-        resposta = self.ixc_api_client.conexao_put(self.recurso, self.metodos_aux.get_campos_put_cidade(self.id_cidade), self.id_cidade)
+        resposta = self.ixc_api_client.conexao_put(self.recurso_cidade, self.metodos_aux.get_campos_put_cidade(self.id_cidade), self.id_cidade)
         self.assertEqual(200, resposta.status_code)
 
 
     def test_comunicacao_delete(self):
         ''' Tem que retornar 200 que é o código de sucesso '''
 
-        resposta = self.ixc_api_client.conexao_delete(self.recurso, '1')
+        resposta = self.ixc_api_client.conexao_delete(self.recurso_cidade, '1')
         self.assertEqual(200, resposta.status_code)
 
