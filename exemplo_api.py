@@ -65,6 +65,37 @@ def delete_cidades(token, dominio, versao_api):
     return json_retorno
 
 
+def get_arquivo_os(token, dominio, versao_api):
+    api_ixc = IxcApiClient(token, dominio, versao_api)
+
+    parametros = {'qtype': 'su_oss_chamado_arquivos.id',  # campo de filtro
+                  'query': '1',  # valor para consultar
+                  'oper': '=',  # operador da consulta
+                  'page': '1',  # página a ser mostrada
+                  'rp': '20',  # quantidade de registros por página
+                  'sortname': 'su_oss_chamado_arquivos.id',  # campo para ordenar a consulta
+                  'sortorder': 'asc',  # //ordenação (asc= crescente | desc=decrescente)
+                  }
+
+    json_arquivo_os = api_ixc.get('su_oss_chamado_arquivos', parametros)
+
+    return json_arquivo_os
+
+def post_arquivo_os(token, dominio, versao_api):
+    api_ixc = IxcApiClient(token, dominio, versao_api)
+
+    campos = {"classificacao_arquivo":"P",
+              "id_oss_chamado":"1842",
+              #"id_oss_chamado_mensagem":"0",
+              "descricao":"Conversa cliente",
+              "local_arquivo":"requirements.txt",
+              "nome_arquivo":"Requiriments.txt"}
+
+    json_retorno = api_ixc.post('su_oss_chamado_arquivos', campos)
+
+    return json_retorno
+
+
 def ler_config():
     parametros = {}
 
@@ -85,17 +116,23 @@ def ___main___():
     print('Consultando a cidade ID = 11122 \n')
     print(get_cidades(token, seu_dominio, versao_api))
     print('\n*****\n')
-    print('Cadastrando uma cidade PalmasTO \n')
-    print(post_cidades(token, seu_dominio, versao_api))
+    print('Consultando a su_oss_chamado_arquivos ID = 1 \n')
+    print(get_arquivo_os(token, seu_dominio, versao_api))
     print('\n*****\n')
-    print('Atualizando a cidade ID = 11122 \n')
-    print(put_cidades(token, seu_dominio, versao_api))
+    print('cadastrando arquivo em su_oss_chamado_arquivos \n')
+    print(post_arquivo_os(token, seu_dominio, versao_api))
     print('\n*****\n')
-    print('Excluindo a cidade ID = 1 \n')
-    print(delete_cidades(token, seu_dominio, versao_api))
+    # print('Cadastrando uma cidade PalmasTO \n')
+    # print(post_cidades(token, seu_dominio, versao_api))
     # print('\n*****\n')
-    # print('Consultando o cliente ID = 500 \n')
-    # print(get_cliente(token, seu_dominio, versao_api))
+    # print('Atualizando a cidade ID = 11122 \n')
+    # print(put_cidades(token, seu_dominio, versao_api))
+    # print('\n*****\n')
+    # print('Excluindo a cidade ID = 1 \n')
+    # print(delete_cidades(token, seu_dominio, versao_api))
+    # # print('\n*****\n')
+    # # print('Consultando o cliente ID = 500 \n')
+    # # print(get_cliente(token, seu_dominio, versao_api))
 
 
 if __name__ == "__main__":
