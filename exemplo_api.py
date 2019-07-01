@@ -69,7 +69,7 @@ def get_arquivo_os(token, dominio, versao_api):
     api_ixc = IxcApiClient(token, dominio, versao_api)
 
     parametros = {'qtype': 'su_oss_chamado_arquivos.id',  # campo de filtro
-                  'query': '1',  # valor para consultar
+                  'query': '73',  # valor para consultar
                   'oper': '=',  # operador da consulta
                   'page': '1',  # página a ser mostrada
                   'rp': '20',  # quantidade de registros por página
@@ -86,10 +86,9 @@ def post_arquivo_os(token, dominio, versao_api):
 
     campos = {"classificacao_arquivo":"P",
               "id_oss_chamado":"1842",
-              #"id_oss_chamado_mensagem":"0",
-              "descricao":"Conversa cliente",
-              "local_arquivo":"requirements.txt",
-              "nome_arquivo":"Requiriments.txt"}
+              "descricao":"Teste API",
+              "local_arquivo_nome": "arquivos/003.jpg",
+              "nome_arquivo":"tabela.png"}
 
     json_retorno = api_ixc.post('su_oss_chamado_arquivos', campos)
 
@@ -116,12 +115,12 @@ def ___main___():
     print('Consultando a cidade ID = 11122 \n')
     print(get_cidades(token, seu_dominio, versao_api))
     print('\n*****\n')
-    print('Consultando a su_oss_chamado_arquivos ID = 1 \n')
-    print(get_arquivo_os(token, seu_dominio, versao_api))
-    print('\n*****\n')
     print('cadastrando arquivo em su_oss_chamado_arquivos \n')
     print(post_arquivo_os(token, seu_dominio, versao_api))
     print('\n*****\n')
+    # print('Consultando a su_oss_chamado_arquivos ID = 1 \n')
+    # print(get_arquivo_os(token, seu_dominio, versao_api))
+    # print('\n*****\n')
     # print('Cadastrando uma cidade PalmasTO \n')
     # print(post_cidades(token, seu_dominio, versao_api))
     # print('\n*****\n')
